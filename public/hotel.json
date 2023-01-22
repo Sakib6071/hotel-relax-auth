@@ -1,0 +1,38 @@
+[
+    {
+    "id":1,
+    "type":"Single",
+    "img":"https://i.ibb.co/TkTz8Rs/single.jpg",
+    "price":3000,
+    "description":"Single bed,attach bathroom and balcony. Maximum 1 person."
+    },
+    {
+    "id":2,
+    "type":"Double",
+    "img":"https://i.ibb.co/BNgjNPy/double.jpg",
+    "price":3000,
+    "description":"Double bed,attach bathroom and balcony. Maximum 1 person."
+    },
+    {
+    "id":3,
+    "type":"Meeting",
+    "img":"https://i.ibb.co/JkLJnsb/meeting.jpg",
+    "price":7500,
+    "description":"20 chair and 1 large table,attach bathroom. Maximum 20 person."
+    },
+    {
+    "id":4,
+    "type":"Family",
+    "img":"https://i.ibb.co/gyddG1Z/family.jpg",
+    "price":8000,
+    "description":"Two large bed,attach bathroom and balcony. Maximum 5 person."
+    },
+    {
+    "id":5,
+    "type":"King",
+    "img":"https://i.ibb.co/VWWbTRk/king.jpg",
+    "price":5500,
+    "description":"Large one bed,attach bathroom and balcony. Maximum 3 person."
+    }
+    
+    ]
