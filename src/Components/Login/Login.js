@@ -1,20 +1,47 @@
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { Link} from "react-router-dom";
+import React, { useState } from "react";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { Link, useLocation, useNavigate} from "react-router-dom";
+import auth from "../../firebase.init";
 
 
 const Login = () => {
-  
+  const navigate = useNavigate()
+  const [
+    signInWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useSignInWithEmailAndPassword(auth);
+  const location = useLocation()
+  const from = location.state?.from?.pathname || "/"
+  if(user){
+    navigate(from,{replace:true})
+  }
+  const [email,setEmail]=useState([])
+const [password,setPassword]=useState([])
+
+const handleEmailBlur=event=>{
+  setEmail(event.target.value)
+}
+const handlePasswordBlur = event => {
+  setPassword(event.target.value)
+}
+  const handleLogin = (e) =>{
+    e.preventDefault()
+    signInWithEmailAndPassword(email,password)
+  }
   return (
     <div>
       <div className="mt-5 w-2/5 mx-auto bg-gray-700 rounded-lg px-10 py-8">
         <p className="text-center text-3xl text-yellow-500">Login Here</p>
-        <form >
+        <form onSubmit={handleLogin}>
           <div className="email-field">
             <label className="text-white text-xl">Enter Your Email</label>{" "}
             <br />
             <input
+            onBlur={handleEmailBlur}
               className=" px-2 py-3 w-full rounded-lg"
               type="email"
               placeholder="Your Email"
@@ -25,13 +52,14 @@ const Login = () => {
           <div className="password-field my-5">
             <label className="text-white text-xl">Enter Password</label> <br />
             <input
+            onBlur={handlePasswordBlur}
               className=" px-2 py-3 w-full rounded-lg"
               type="password"
               placeholder="Password"
               name="password"
             />
           </div>
-
+        <p className="text-red-500 text-center">{error?.message}</p>
           <div className="login-button mt-5 text-right">
             <input
               className="hover:cursor-pointer w-full bg-yellow-500 text-black px-5 py-2 text-xl font-semibold rounded-lg"

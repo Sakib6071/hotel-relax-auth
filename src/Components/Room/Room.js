@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Room = ({room}) => {
     const {type,price,img,description}=room
@@ -11,7 +12,7 @@ const Room = ({room}) => {
             <p className='text-2xl'>Price : {price} &#2547;</p>
             
             </div>
-            <button className='text-center text-2xl text-yellow-400 bg-gray-800 w-full py-3 rounded-b-lg font-semibold'>Book Now</button>
+            <button className='text-center text-2xl text-yellow-400 bg-gray-800 w-full py-3 rounded-b-lg font-semibold'><Link to={"/book"}>Book Now</Link></button>
         </div>
     );
 };
