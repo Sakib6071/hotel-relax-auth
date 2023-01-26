@@ -2,52 +2,54 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import {useCreateUserWithEmailAndPassword} from "react-firebase-hooks/auth"
-import auth from "../../firebase.init"
-
-
-
-
+import {
+  useCreateUserWithEmailAndPassword,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
 
 const Registration = () => {
-  const [
-    createUserWithEmailAndPassword,
-    user,
-    loading,
-    error,
-  ] = useCreateUserWithEmailAndPassword(auth); 
-const [email,setEmail]=useState([])
-const [password,setPassword]=useState([])
-const [confirmPassword,setConfirmPassword]=useState([])
-const [errors,setErrors]=useState('')
-const navigate = useNavigate()
 
-  const handleRegistration = (e) =>{
-      e.preventDefault();
-      if(password!=confirmPassword){
-        setErrors("password mismatch")
-        return;
-      }
-      else if (password.length <6){
-        setErrors("Password should be 6 character minimum")
-        return;
-      }
-      createUserWithEmailAndPassword(email,password)
-     
-  }
-  const handleEmailBlur=(e)=>{
-    setEmail(e.target.value)
-  }
-  const handlePasswordBlur=(e)=>{
-    setPassword(e.target.value)
-  }
-  const handleConfirmPasswordBlur=(e)=>{
+  const [email, setEmail] = useState([]);
+  const [password, setPassword] = useState([]);
+  const [confirmPassword, setConfirmPassword] = useState([]);
+  const [errors, setErrors] = useState("");
+  const navigate = useNavigate();
+
+  const [signInWithGoogle, googleUser, googleError] = useSignInWithGoogle(auth);
+
+  const [createUserWithEmailAndPassword, user, error] =
+    useCreateUserWithEmailAndPassword(auth);
+
+  const handleRegistration = (e) => {
+    e.preventDefault();
+    if (password != confirmPassword) {
+      setErrors("password mismatch");
+      return;
+    } else if (password.length < 6) {
+      setErrors("Password should be 6 character minimum");
+      return;
+    }
+    createUserWithEmailAndPassword(email, password);
+  };
+  const handleEmailBlur = (e) => {
+    setEmail(e.target.value);
+  };
+  const handlePasswordBlur = (e) => {
+    setPassword(e.target.value);
+  };
+  const handleConfirmPasswordBlur = (e) => {
     setConfirmPassword(e.target.value);
+  };
+  const handleGoogleSignIn = () => {
+    signInWithGoogle();
+  };
+  if (user || googleUser) {
+    navigate("/");
   }
-  if(user){
-navigate('/')
-  }
-
+  // if (googleUser) {
+  //   navigate("/");
+  // }
 
   return (
     <div>
@@ -57,14 +59,13 @@ navigate('/')
           <div className="email-field">
             <label className="text-white text-xl">Enter Your Email</label>{" "}
             <br />
-            <input 
+            <input
               onBlur={handleEmailBlur}
               className=" px-2 py-3 w-full rounded-lg"
               type="email"
               placeholder="Your Email"
               name="email"
             />
-            
           </div>
 
           <div className="password-field my-5">
@@ -76,21 +77,21 @@ navigate('/')
               name="password"
               placeholder="Password"
             />
-            
           </div>
 
           <div className="confirm-password-field">
             <label className="text-white text-xl">Confirm Password</label>{" "}
             <br />
-            <input 
+            <input
               onBlur={handleConfirmPasswordBlur}
               className=" px-2 py-3 w-full rounded-lg"
               type="password"
               placeholder="Retype Password"
             />
-            
           </div>
-<div><span className="text-red-500 text-center">{errors}</span></div>
+          <div>
+            <span className="text-red-500 text-center">{errors}</span>
+          </div>
           <div className="register-button mt-5 text-right">
             <input
               className="hover:cursor-pointer w-full bg-yellow-500 text-black px-5 py-2 text-xl font-semibold rounded-lg"
@@ -116,7 +117,7 @@ navigate('/')
         </div>
         <div className="sign-in-google">
           <button
-            
+            onClick={handleGoogleSignIn}
             className="text-white py-3 px-2 my-2 text-left w-full border-2 rounded-lg"
           >
             <FontAwesomeIcon
@@ -129,7 +130,6 @@ navigate('/')
             </span>
           </button>
         </div>
-
       </div>
     </div>
   );

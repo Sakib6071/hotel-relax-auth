@@ -1,13 +1,15 @@
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useSignInWithEmailAndPassword, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { Link, useLocation, useNavigate} from "react-router-dom";
 import auth from "../../firebase.init";
 
 
 const Login = () => {
   const navigate = useNavigate()
+  const [signInWithGoogle, googleUser, googleError] = useSignInWithGoogle(auth);
+
   const [
     signInWithEmailAndPassword,
     user,
@@ -16,9 +18,12 @@ const Login = () => {
   ] = useSignInWithEmailAndPassword(auth);
   const location = useLocation()
   const from = location.state?.from?.pathname || "/"
-  if(user){
+  if(user || googleUser){
     navigate(from,{replace:true})
   }
+  // if(googleUser){
+  //   navigate(from,{replace:true})
+  // }
   const [email,setEmail]=useState([])
 const [password,setPassword]=useState([])
 
@@ -31,6 +36,9 @@ const handlePasswordBlur = event => {
   const handleLogin = (e) =>{
     e.preventDefault()
     signInWithEmailAndPassword(email,password)
+  }
+  const handleGoogleSignIn=()=>{
+signInWithGoogle()
   }
   return (
     <div>
@@ -83,7 +91,7 @@ const handlePasswordBlur = event => {
           <hr className=" w-2/5 inline-block" />
         </div>
         <div className="sign-in-google">
-          <button className="text-white py-3 px-2 my-2 text-left w-full border-2 rounded-lg">
+          <button onClick={handleGoogleSignIn} className="text-white py-3 px-2 my-2 text-left w-full border-2 rounded-lg">
             <FontAwesomeIcon
               className=" w-1/6 inline-block text-left"
               icon={faGoogle}
