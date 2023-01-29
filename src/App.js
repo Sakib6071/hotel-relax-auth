@@ -21,7 +21,7 @@ function App() {
         <Route path='/registration' element={<Registration></Registration>}></Route>
         <Route path='/about' element={<About></About>}></Route>
         <Route path='/contact' element={<Contact></Contact>}></Route>
-        <Route path='/book' element={<RequireAuth><Book></Book></RequireAuth>}></Route>
+        <Route path='/book/:ID' element={<RequireAuth><Book></Book></RequireAuth>}></Route>
         <Route path='*' element={<NotFound></NotFound>}></Route>
       </Routes>
       <Footer></Footer>
