@@ -11,8 +11,8 @@ const Book = () => {
   //     .then(data=>setRooms(data))
 
   // },[])
-  const specificItem = rooms.find((room) => (room.id = ID));
-  console.log(typeof specificItem);
+  const specificItem = rooms.find((room) => (parseInt(room.id) === parseInt(ID)));
+  console.log( specificItem);
   return (
     <div>
       <div className=" my-5 rounded-lg w-1/2 mx-auto mt-4 bg-gray-600" >
